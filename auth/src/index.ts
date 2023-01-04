@@ -1,12 +1,11 @@
 import express from "express";
+import router from "./routes";
 
 const app = express();
 
 app.use(express.json());
 
-app.get("/api/users/currentuser", (req, res) => {
-  res.send("Hi there");
-});
+app.use("/api/users", router);
 
 const PORT = process.env.PORT || 3000;
 
