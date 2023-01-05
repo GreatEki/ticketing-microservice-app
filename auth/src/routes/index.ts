@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { CurrentUserRouter } from "./current-user";
-import { SignInRouter } from "./sign-in";
-import { SignOutRouter } from "./sign-out";
-import { SignUpRouter } from "./sign-up";
+import { CurrentUserRouter } from "../lib/currentUser/current-user.router";
+import { SignInRouter } from "../lib/signin/sign-in.router";
+import { SignOutRouter } from "../lib/signout/sign-out.router";
+import { SignUpRouter } from "../lib/signup/sign-up.router";
 
 const router = Router();
 
