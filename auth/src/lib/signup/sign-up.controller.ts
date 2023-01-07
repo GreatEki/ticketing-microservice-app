@@ -18,8 +18,6 @@ export const signUpController = async (
       statusCode: 201,
       data: signedUpUser,
     });
-
-    // res.send("Signing up controller is ready ");
   } catch (err) {
     next(err);
   }

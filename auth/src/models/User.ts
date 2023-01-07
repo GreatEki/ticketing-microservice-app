@@ -1,9 +1,19 @@
 import mongoose from "mongoose";
 import { UserAttrs, UserDoc, UserModel } from "../interfaces";
+import { Password } from "../services/password";
 
 const UserSchema = new mongoose.Schema<UserAttrs>({
   email: { type: String, required: true },
   password: { type: String, required: true },
+});
+
+UserSchema.pre("save", async function (done) {
+  if (this.isModified("password")) {
+    const hashed = await Password.hashPassword(this.get("password"));
+    this.set("password", hashed);
+  }
+
+  done();
 });
 
 UserSchema.statics.buildNewDocument = (attrs: UserAttrs) => {
