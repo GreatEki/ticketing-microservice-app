@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { UserAttrs, UserDoc, UserModel } from "../interfaces";
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema<UserAttrs>({
   email: { type: String, required: true },
   password: { type: String, required: true },
 });

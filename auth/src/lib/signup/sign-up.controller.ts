@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { ApplicationError, BadRequestError } from "../../errors";
+import * as AuthService from "./sign-up.service";
 
 export const signUpController = async (
   req: Request,
@@ -7,7 +8,17 @@ export const signUpController = async (
   next: NextFunction
 ) => {
   try {
-    throw new BadRequestError("Database connection failure");
+    const { email, password } = req.body;
+
+    const signedUpUser = await AuthService.signup({ email, password });
+
+    return res.status(201).send({
+      success: true,
+      status: "OK",
+      statusCode: 201,
+      data: signedUpUser,
+    });
+
     // res.send("Signing up controller is ready ");
   } catch (err) {
     next(err);
