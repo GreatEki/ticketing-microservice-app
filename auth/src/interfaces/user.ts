@@ -1,0 +1,16 @@
+import { string } from "@hapi/joi";
+import mongoose from "mongoose";
+
+export interface UserAttrs {
+  email: string;
+  password: string;
+}
+
+export interface UserDoc extends mongoose.Document {
+  email: string;
+  password: string;
+}
+
+export interface UserModel extends mongoose.Model<UserDoc> {
+  buildNewDocument(attrs: UserAttrs): UserDoc;
+}
