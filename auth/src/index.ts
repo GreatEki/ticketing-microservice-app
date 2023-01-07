@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import router from "./routes";
 import { errorHandler } from "./middlewares/error-handler";
 import { NotFoundError } from "./errors";
+import connectDB from "./config/database";
 
 const app = express();
 
@@ -17,6 +18,11 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () =>
-  console.log(`Auth microservice listening on PORT ${PORT}!!!`)
-);
+const startApplication = async () => {
+  await connectDB();
+  app.listen(PORT, () =>
+    console.log(`Auth microservice listening on PORT ${PORT}!!!`)
+  );
+};
+
+startApplication();
