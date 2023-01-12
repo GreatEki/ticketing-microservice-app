@@ -2,10 +2,19 @@ import mongoose from "mongoose";
 import { UserAttrs, UserDoc, UserModel } from "../interfaces";
 import { Password } from "../services/password";
 
-const UserSchema = new mongoose.Schema<UserAttrs>({
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-});
+const UserSchema = new mongoose.Schema<UserAttrs>(
+  {
+    email: { type: String, required: true },
+    password: { type: String, required: true },
+  },
+  {
+    toJSON: {
+      transform(doc, ret) {
+        delete ret.password;
+      },
+    },
+  }
+);
 
 UserSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
