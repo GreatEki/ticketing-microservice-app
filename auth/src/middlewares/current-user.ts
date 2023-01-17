@@ -30,4 +30,6 @@ export const currentUserMiddleWare = (
     ) as UserPayload;
     req.currentUser = payload;
   } catch (err) {}
+
+  next();
 };
