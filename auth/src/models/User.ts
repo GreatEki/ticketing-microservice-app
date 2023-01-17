@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import { UserAttrs, UserDoc, UserModel } from "../interfaces";
-import { Password } from "../services/password";
+import { PasswordManager } from "../services/password";
 
 const UserSchema = new mongoose.Schema<UserAttrs>(
   {
@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema<UserAttrs>(
 
 UserSchema.pre("save", async function (done) {
   if (this.isModified("password")) {
-    const hashed = await Password.hashPassword(this.get("password"));
+    const hashed = await PasswordManager.hashPassword(this.get("password"));
     this.set("password", hashed);
   }
 
