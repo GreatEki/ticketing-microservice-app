@@ -2,7 +2,7 @@ import Joi from "@hapi/joi";
 import { Request, Response, NextFunction } from "express";
 
 const SignUpValSchema = Joi.object({
-  email: Joi.string().required(),
+  email: Joi.string().email({ minDomainSegments: 2 }).required(),
   password: Joi.string().required(),
 });
 

@@ -7,6 +7,7 @@ export async function errorHandler(
   res: Response,
   next: NextFunction
 ) {
+  if (err.name === "ValidationError") err.statusCode = 400;
   res.status(err?.statusCode || 500).send({
     success: false,
     status: err?.status || "Server error",
