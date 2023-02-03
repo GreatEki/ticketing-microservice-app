@@ -12,9 +12,13 @@ app.use(express.json());
 app.use(
   cookieSession({
     signed: false,
-    secure: true,
+    secure: process.env.NODE_ENV !== "test",
   })
 );
+// the above secure prop will set secure to true as long as we are not in a test environment.
+// dev environment secure = true
+// prod environment secure = true
+// test environemtn secure = false
 
 app.use("/api/users", router);
 
