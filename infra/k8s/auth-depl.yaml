@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: greateki/ticketing-auth
+          image: greateki/ticketing-auth:latest
           env:
             - name: JWT_KEY
               valueFrom:

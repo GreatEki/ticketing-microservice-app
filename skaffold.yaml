@@ -16,3 +16,10 @@ build:
         manual:
           - src: "src/**/*.ts"
             dest: .
+    - image: greateki/ticketing-client
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual: "src/**/*.ts"
+        dest: .
