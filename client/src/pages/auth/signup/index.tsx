@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import styles from "./Signup.module.css";
 import { Input, Button } from "@/components";
-import axios from "axios";
+import Router from "next/router";
+import useRequest from "@/hooks/useRequest";
 
 const Signup = () => {
   const [user, setUser] = useState({
     email: "",
     password: "",
+  });
+
+  const { execute } = useRequest({
+    url: "http://ticketing.dev/api/users/signup",
+    method: "post",
+    options: {
+      onSuccess: (data) => {
+        console.log(data);
+        Router.push("/");
+      },
+      onError: (err) => {
+        console.log(err?.response?.data || err?.message);
+      },
+    },
   });
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -16,13 +31,7 @@ const Signup = () => {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    try {
-      const response = await axios.post("/api/users/signup", user);
-
-      console.log(response);
-    } catch (err) {
-      console.log(err?.response?.data || err?.message);
-    }
+    await execute(user);
   }
 
   return (
