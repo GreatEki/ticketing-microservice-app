@@ -16,14 +16,19 @@ const Signup = () => {
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
 
-    const response = await axios.post("/api/users/signup", user);
+    try {
+      const response = await axios.post("/api/users/signup", user);
 
-    console.log(response);
+      console.log(response);
+    } catch (err) {
+      console.log(err?.response?.data || err?.message);
+    }
   }
 
   return (
     <div className={styles.signup}>
-      <h1> Signup Screen</h1>
+      <h1 className={styles.h1}> Signup Screen</h1>
+      <br />
       <form className={styles.form} onSubmit={onSubmit}>
         <div>
           <Input
