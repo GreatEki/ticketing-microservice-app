@@ -11,7 +11,7 @@ const Signup = () => {
   });
 
   const { execute } = useRequest({
-    url: "http://ticketing.dev/api/users/signup",
+    url: "/api/users/signup",
     method: "post",
     options: {
       onSuccess: (data) => {
