@@ -1,6 +1,6 @@
 import React from "react";
 import { NextPage } from "next";
-import axios from "axios";
+import AxiosClient from "@/config/axios/axios-client";
 
 type CurrentUser = {
   email: string;
@@ -17,23 +17,12 @@ const Dashboard: NextPage<Props> = ({ currentUser }) => {
   return <div>Dashboard Page</div>;
 };
 
-Dashboard.getInitialProps = async ({ req }) => {
-  if (typeof window === "undefined") {
-    // we are on the server
-    const { data } = await axios.get(
-      `http://ingess-nginx.ingress.nginx.svc.cluster.local/api/users/currentuser`,
-      {
-        headers: req?.headers,
-      }
-    );
+Dashboard.getInitialProps = async (context) => {
+  const axiosClient = AxiosClient(context);
 
-    return data;
-  } else {
-    // we are in the browser
-    const { data } = await axios.get("/api/users/currentuser");
+  const { data } = await axiosClient.get(`/api/users/currentuser`);
 
-    return data;
-  }
+  return data;
 };
 
 export default Dashboard;
