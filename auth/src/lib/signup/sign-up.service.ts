@@ -1,4 +1,4 @@
-import { BadRequestError } from "../../errors";
+import { BadRequestError } from "@greateki-ticket-ms-demo/common";
 import { UserAttrs } from "../../interfaces";
 import { User } from "../../models";
 

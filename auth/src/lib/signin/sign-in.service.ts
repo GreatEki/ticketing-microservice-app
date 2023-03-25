@@ -1,4 +1,4 @@
-import { BadRequestError } from "../../errors";
+import { BadRequestError } from "@greateki-ticket-ms-demo/common";
 import { User } from "../../models";
 import { PasswordManager } from "../../services/password";
 

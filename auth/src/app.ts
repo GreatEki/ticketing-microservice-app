@@ -1,7 +1,6 @@
 import express, { Request, Response, NextFunction } from "express";
 import router from "./routes";
-import { errorHandler } from "./middlewares/error-handler";
-import { NotFoundError } from "./errors";
+import { errorHandler, NotFoundError } from "@greateki-ticket-ms-demo/common";
 
 import cookieSession from "cookie-session";
 

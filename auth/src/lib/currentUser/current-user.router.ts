@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { currentUserController } from "./current-user.controller";
-import { currentUserMiddleWare } from "../../middlewares/current-user";
+import { currentUserMiddleWare } from "@greateki-ticket-ms-demo/common";
 
 const router = Router();
 

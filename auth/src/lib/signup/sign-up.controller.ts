@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from "express";
-import { ApplicationError, BadRequestError } from "../../errors";
 import * as AuthService from "./sign-up.service";
 import jwt from "jsonwebtoken";
 
