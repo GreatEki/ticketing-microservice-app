@@ -7,6 +7,9 @@ const startApplication = async () => {
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY should be defined");
   }
+  if (!process.env.MONGO_URI) {
+    throw new Error("MONGO_URI should be defined");
+  }
 
   await connectDB();
 
