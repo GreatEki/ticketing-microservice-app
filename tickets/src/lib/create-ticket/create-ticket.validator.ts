@@ -3,7 +3,7 @@ import { NextFunction, Request, Response } from "express";
 
 const CreateTicketValSchema = Joi.object({
   title: Joi.string().required(),
-  price: Joi.number().required,
+  price: Joi.number().required(),
 });
 
 export const CreateTicketValidator = async (
