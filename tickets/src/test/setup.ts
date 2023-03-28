@@ -33,8 +33,10 @@ afterAll(async () => {
 
 global.signup = () => {
   // create jwt payload
+  const userId = new mongoose.Types.ObjectId().toHexString();
+
   const payload = {
-    id: "fakeidtest4763d",
+    id: userId,
     email: "test@test.com",
   };
 
