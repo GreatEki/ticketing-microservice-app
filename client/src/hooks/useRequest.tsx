@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import axios from "axios";
 
 type Methods = "post" | "put" | "patch" | "delete" | "get" | "options" | "head";
