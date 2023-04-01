@@ -1,3 +1,6 @@
 [submodule "common"]
 	path = common
 	url = https://github.com/GreatEki/ticketing-common-ms.git
+[submodule "nats-event-bus"]
+	path = nats-event-bus
+	url = https://github.com/GreatEki/nats-streaming-demo.git
