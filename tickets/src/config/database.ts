@@ -10,4 +10,6 @@ const connectDB = async () => {
   }
 };
 
+export const mongooseConnection = mongoose.connection;
+
 export default connectDB;

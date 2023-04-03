@@ -4,12 +4,16 @@ import {
   UnauthorizedError,
   NotFoundError,
 } from "@greateki-ticket-ms-demo/common";
+import { natsWrapper } from "../../events/nats-wrapper";
+import TicketUpdatedPublisher from "../../events/publishers/TicketUpdatedPublisher";
+import { mongooseConnection } from "../../config/database";
 
 export const updateTicket: RequestHandler = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
+  const session = await mongooseConnection.startSession();
   try {
     const { ticketId } = req.params;
 
@@ -24,9 +28,16 @@ export const updateTicket: RequestHandler = async (
         "You are not authorized to perform this operation"
       );
 
-    const updatedTicket = await ticket.updateOne({ title, price });
+    const result = await ticket.updateOne({ title, price });
 
-    return res.status(200).send(updatedTicket);
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
+      id: result.id,
+      price: result.price,
+      title: result.title,
+      userId: result.userId,
+    });
+
+    return res.status(200).send(result);
   } catch (err) {
     next(err);
   }
