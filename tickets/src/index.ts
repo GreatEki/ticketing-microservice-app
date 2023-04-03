@@ -18,6 +18,13 @@ const startApplication = async () => {
     randomBytes(4).toString("hex"),
     "http://nats-srv:422"
   );
+  natsWrapper.client.on("close", () => {
+    console.log("NATS connection closed in ticket ms");
+    process.exit();
+  });
+
+  process.on("SIGINT", () => natsWrapper.client.close()); //signal interrupted
+  process.on("SIGTERM", () => natsWrapper.client.close()); //signal terminated
 
   await connectDB();
 
