@@ -40,6 +40,7 @@ const useRequest = ({ url, method, options }: ReqParams) => {
 
       if (options?.onError) {
         options?.onError(err);
+        return Promise.reject(err);
       }
     }
   }
