@@ -1,5 +1,7 @@
 import { Request, RequestHandler, Response, NextFunction } from "express";
 import Ticket from "../../model/Ticket";
+import TicketCreatedPublisher from "../../events/publishers/TicketCreatedPublisher";
+import { natsWrapper } from "../../events/nats-wrapper";
 
 const createTicketController: RequestHandler = async (
   req: Request,
@@ -16,6 +18,13 @@ const createTicketController: RequestHandler = async (
     });
 
     await ticket.save();
+
+    new TicketCreatedPublisher(natsWrapper.client).publish({
+      id: ticket.id,
+      title: ticket.title,
+      price: ticket.price,
+      userId: ticket.userId,
+    });
 
     return res.status(201).send(ticket);
   } catch (err) {
