@@ -13,11 +13,21 @@ const startApplication = async () => {
     throw new Error("MONGO_URI should be defined");
   }
 
+  if (!process.env.NATS_CLUSTER_ID)
+    throw new Error("NATS CLUSTER ID env variable must be defined ");
+
+  if (!process.env.NATS_CLIENT_ID)
+    throw new Error("NATS CLIENT ID env variable must be defined ");
+
+  if (!process.env.NATS_URL)
+    throw new Error("NATS URL env variable must be defined ");
+
   await natsWrapper.connect(
-    "ticketing",
-    randomBytes(4).toString("hex"),
-    "http://nats-srv:4222"
+    process.env.NATS_CLUSTER_ID,
+    process.env.NATS_CLIENT_ID,
+    process.env.NATS_URL
   );
+
   natsWrapper.client.on("close", () => {
     console.log("NATS connection closed in ticket ms");
     process.exit();
