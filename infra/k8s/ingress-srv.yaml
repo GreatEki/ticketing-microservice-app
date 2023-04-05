@@ -23,6 +23,12 @@ spec:
               service: tickets-srv
               port:
                 number: 3000
+          - path: /api/orders/?(.*)
+            pathType: Prefix
+            backend:
+              service: orders-srv
+              port:
+                number: 3000
           - path: /api/?(.*)
             pathType: Prefix
             backend:
