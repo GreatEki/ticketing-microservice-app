@@ -1,7 +1,6 @@
 import { app } from "./app";
 import connectDB from "./config/database";
 import { natsWrapper } from "./events/nats-wrapper";
-import { randomBytes } from "crypto";
 
 const PORT = process.env.PORT || 3000;
 
