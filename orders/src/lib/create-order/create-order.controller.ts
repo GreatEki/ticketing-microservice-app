@@ -5,6 +5,8 @@ import {
   NotFoundError,
   OrderStatus,
 } from "@greateki-ticket-ms-demo/common";
+import OrderCreatedPublisher from "../../events/publishers/OrderCreatedPublisher";
+import { natsWrapper } from "../../events/nats-wrapper";
 
 // 10seconds * 60seconds
 const EXPIRATION_WINDOW_TIME = 10 * 60;
@@ -37,6 +39,17 @@ export const createOrderController: RequestHandler = async (
     });
 
     await order.save();
+
+    await new OrderCreatedPublisher(natsWrapper.client).publish({
+      id: order.id,
+      userId: order.userId,
+      expiresAt: order.expiresAt.toISOString(),
+      status: OrderStatus.Created,
+      ticket: {
+        id: ticket.id,
+        price: ticket.price,
+      },
+    });
 
     return res.status(201).send(order);
   } catch (err) {
