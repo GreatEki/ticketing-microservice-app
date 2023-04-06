@@ -1,7 +1,6 @@
 import { app } from "../../../app";
 import request from "supertest";
-import mongoose from "mongoose";
-import { Order, Ticket } from "../../../models";
+import { Ticket } from "../../../models";
 
 const buildTicket = async () => {
   const ticket = Ticket.buildNewDocument({

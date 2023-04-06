@@ -4,7 +4,7 @@ import { requireAuth } from "@greateki-ticket-ms-demo/common";
 
 const DeleteOrderRouter = Router();
 
-DeleteOrderRouter.route("/").post(
+DeleteOrderRouter.route("/:orderId").post(
   requireAuth,
   controller.deleteOrderController
 );
