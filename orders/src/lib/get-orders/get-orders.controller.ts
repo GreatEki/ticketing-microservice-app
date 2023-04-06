@@ -1,4 +1,5 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
+import { Order } from "../../models";
 
 export const getOrdersController: RequestHandler = async (
   req: Request,
@@ -6,6 +7,11 @@ export const getOrdersController: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
+    const orders = await Order.find({
+      userId: req.currentUser!.id,
+    }).populate("ticket");
+
+    return res.status(200).send(orders);
   } catch (err) {
     next(err);
   }

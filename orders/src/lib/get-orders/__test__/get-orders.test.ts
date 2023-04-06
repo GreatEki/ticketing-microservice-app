@@ -1,0 +1,50 @@
+import { app } from "../../../app";
+import request from "supertest";
+import mongoose from "mongoose";
+import { Order, Ticket } from "../../../models";
+
+const buildTicket = async () => {
+  const ticket = Ticket.buildNewDocument({
+    title: "concert",
+    price: 20,
+  });
+  await ticket.save();
+  return ticket;
+};
+
+it("returns a list of orders for a particular user", async () => {
+  const ticketOne = await buildTicket();
+  const ticketTwo = await buildTicket();
+  const ticketThree = await buildTicket();
+
+  const userOne = global.signup();
+  const userTwo = global.signup();
+
+  await request(app)
+    .post("/api/orders/create")
+    .set("Cookie", userOne)
+    .send({ ticketId: ticketOne.id })
+    .expect(201);
+
+  const { body: userTwoFirstOrder } = await request(app)
+    .post("/api/orders/create")
+    .set("Cookie", userTwo)
+    .send({ ticketId: ticketTwo.id })
+    .expect(201);
+  const { body: userTwoSecondOrder } = await request(app)
+    .post("/api/orders/create")
+    .set("Cookie", userTwo)
+    .send({ ticketId: ticketThree.id })
+    .expect(201);
+
+  const response = await request(app)
+    .get("/api/order/show")
+    .set("Cookie", userTwo)
+    .expect(200);
+
+  expect(response.body.length).toEqual(2);
+  expect(response.body[0].id).toEqual(userTwoFirstOrder.id);
+  expect(response.body[1].id).toEqual(userTwoSecondOrder.id);
+  expect(response.body[0].ticket.id).toEqual(ticketTwo.id);
+  expect(response.body[1].ticket.id).toEqual(ticketThree.id);
+});
