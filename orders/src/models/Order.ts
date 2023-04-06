@@ -2,6 +2,8 @@ import mongoose, { Schema } from "mongoose";
 import { OrderStatus } from "@greateki-ticket-ms-demo/common";
 import { TicketDoc } from "./Ticket";
 
+export { OrderStatus };
+
 interface OrderAttr {
   userId: string;
   status: OrderStatus;
@@ -48,3 +50,5 @@ const Order = mongoose.model<OrderDoc, OrderModel>("order", OrderSchema);
 OrderSchema.statics.buildNewDocument = (attrs: OrderAttr) => {
   return new Order(attrs);
 };
+
+export default Order;

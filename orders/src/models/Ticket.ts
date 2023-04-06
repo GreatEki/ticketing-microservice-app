@@ -1,4 +1,5 @@
 import mongoose, { Schema } from "mongoose";
+import Order, { OrderStatus } from "./Order";
 
 interface TicketAttrs {
   title: string;
@@ -8,6 +9,7 @@ interface TicketAttrs {
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  isReserved(): Promise<boolean>;
 }
 
 interface TicketModel extends mongoose.Model<TicketDoc> {
@@ -35,3 +37,20 @@ const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", TicketSchema);
 TicketSchema.statics.buildNewDocument = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
+
+TicketSchema.methods.isReserved = async function () {
+  const lockedInOrder = await Order.findOne({
+    ticket: this,
+    status: {
+      $in: [
+        OrderStatus.Created,
+        OrderStatus.AwaitingPayment,
+        OrderStatus.Complete,
+      ],
+    },
+  });
+
+  return !!lockedInOrder;
+};
+
+export default Ticket;
