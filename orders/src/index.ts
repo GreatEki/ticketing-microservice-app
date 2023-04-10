@@ -1,5 +1,9 @@
 import { app } from "./app";
 import connectDB from "./config/database";
+import {
+  TicketCreatedListener,
+  TicketUpdatedListener,
+} from "./events/listeners";
 import { natsWrapper } from "./events/nats-wrapper";
 
 const PORT = process.env.PORT || 3000;
@@ -34,6 +38,9 @@ const startApplication = async () => {
 
   process.on("SIGINT", () => natsWrapper.client.close()); //signal interrupted
   process.on("SIGTERM", () => natsWrapper.client.close()); //signal terminated
+
+  new TicketCreatedListener(natsWrapper.client).listen();
+  new TicketUpdatedListener(natsWrapper.client).listen();
 
   await connectDB();
 
