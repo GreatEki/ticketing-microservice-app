@@ -35,6 +35,7 @@ export const updateTicket: RequestHandler = async (
       price: result.price,
       title: result.title,
       userId: result.userId,
+      version: result.version,
     });
 
     return res.status(200).send(result);

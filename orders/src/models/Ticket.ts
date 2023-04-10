@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
 import Order, { OrderStatus } from "./Order";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
 
 interface TicketAttrs {
   id: string;
@@ -10,6 +11,7 @@ interface TicketAttrs {
 export interface TicketDoc extends mongoose.Document {
   title: string;
   price: number;
+  version: number;
   isReserved(): Promise<boolean>;
 }
 
@@ -32,6 +34,9 @@ const TicketSchema: Schema = new Schema<TicketAttrs>(
     },
   }
 );
+
+TicketSchema.set("versionKey", "version");
+TicketSchema.plugin(updateIfCurrentPlugin);
 
 const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", TicketSchema);
 
