@@ -16,6 +16,7 @@ it("returns an error if ticket does not exist", async () => {
 
 it("returns an error if the ticket is reserved or locked in", async () => {
   const ticket = Ticket.buildNewDocument({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -39,6 +40,7 @@ it("returns an error if the ticket is reserved or locked in", async () => {
 
 it("reserves a ticket and returns a status code of 201", async () => {
   const ticket = Ticket.buildNewDocument({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 20,
   });
@@ -53,6 +55,7 @@ it("reserves a ticket and returns a status code of 201", async () => {
 
 it("emits an order created event", async () => {
   const ticket = Ticket.buildNewDocument({
+    id: new mongoose.Types.ObjectId().toHexString(),
     title: "concert",
     price: 50,
   });

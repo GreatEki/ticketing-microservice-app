@@ -37,6 +37,7 @@ export const deleteOrderController: RequestHandler = async (
         id: order.ticket.id,
         price: order.ticket.price,
       },
+      version: result.version,
     });
 
     return res.status(204).send(result);

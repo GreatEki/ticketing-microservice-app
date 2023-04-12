@@ -1,5 +1,7 @@
 import mongoose, { Schema } from "mongoose";
 import { OrderStatus } from "@greateki-ticket-ms-demo/common";
+import { updateIfCurrentPlugin } from "mongoose-update-if-current";
+
 import { TicketDoc } from "./Ticket";
 
 export { OrderStatus };
@@ -16,6 +18,7 @@ interface OrderDoc extends mongoose.Document {
   status: OrderStatus;
   expiresAt: Date;
   ticket: TicketDoc;
+  version: number;
 }
 
 interface OrderModel extends mongoose.Model<OrderDoc> {
@@ -44,6 +47,9 @@ const OrderSchema: Schema = new Schema<OrderAttr>(
     },
   }
 );
+
+OrderSchema.set("versionKey", "version");
+OrderSchema.plugin(updateIfCurrentPlugin);
 
 const Order = mongoose.model<OrderDoc, OrderModel>("order", OrderSchema);
 
