@@ -7,6 +7,7 @@ export const TicketSchema: Schema = new Schema<TicketAttrs>(
     title: { type: String, required: true },
     price: { type: Number, required: true },
     userId: { type: String, required: true },
+    orderId: { type: String },
   },
   {
     timestamps: true,
