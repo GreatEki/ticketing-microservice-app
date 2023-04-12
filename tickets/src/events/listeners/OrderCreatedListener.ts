@@ -7,6 +7,7 @@ import {
 import { QueueGroupName } from "./queue-group-name";
 import { Message } from "node-nats-streaming";
 import Ticket from "../../model/Ticket";
+import TicketUpdatedPublisher from "../publishers/TicketUpdatedPublisher";
 
 export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
   subject: Subjects.OrderCreated = Subjects.OrderCreated;
@@ -21,6 +22,15 @@ export class OrderCreatedListener extends Listener<OrderCreatedEvent> {
     if (!ticket) throw new NotFoundError("Ticket not found");
 
     await ticket.updateOne({ orderId: data.id });
+
+    await new TicketUpdatedPublisher(this.client).publish({
+      id: ticket.id,
+      price: ticket.price,
+      title: ticket.title,
+      userId: ticket.userId,
+      orderId: ticket.orderId,
+      version: ticket.version,
+    });
 
     msg.ack();
   }
