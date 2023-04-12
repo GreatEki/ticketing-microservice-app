@@ -19,7 +19,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
 
     if (!ticket) throw new Error("Ticket not found");
 
-    await Ticket.updateOne({ title: data.title, price: data.price });
+    await ticket.updateOne({ title: data.title, price: data.price });
 
     msg.ack();
   }
