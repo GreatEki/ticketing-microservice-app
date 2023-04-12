@@ -3,6 +3,7 @@ import Ticket from "../../model/Ticket";
 import {
   UnauthorizedError,
   NotFoundError,
+  BadRequestError,
 } from "@greateki-ticket-ms-demo/common";
 import { natsWrapper } from "../../events/nats-wrapper";
 import TicketUpdatedPublisher from "../../events/publishers/TicketUpdatedPublisher";
@@ -22,6 +23,12 @@ export const updateTicket: RequestHandler = async (
     const ticket = await Ticket.findById(ticketId);
 
     if (!ticket) throw new NotFoundError("Ticket not found");
+
+    // check if ticket has an order
+    if (ticket.orderId)
+      throw new BadRequestError(
+        "Ticket is currently reserved. Operation disallowed"
+      );
 
     if (ticket.userId !== req.currentUser!.id)
       throw new UnauthorizedError(
