@@ -28,7 +28,7 @@ const setup = async () => {
 it("create and save a ticket", async () => {
   const { listener, data, msg } = await setup();
 
-  listener.onMessage(data, msg);
+  await listener.onMessage(data, msg);
 
   const ticket = await Ticket.findById(data.id);
 
@@ -37,4 +37,10 @@ it("create and save a ticket", async () => {
   expect(ticket?.price).toEqual(data.price);
 });
 
-it("acks the message", async () => {});
+it("acks the message", async () => {
+  const { listener, data, msg } = await setup();
+
+  await listener.onMessage(data, msg);
+
+  expect(msg.ack).toHaveBeenCalled();
+});
