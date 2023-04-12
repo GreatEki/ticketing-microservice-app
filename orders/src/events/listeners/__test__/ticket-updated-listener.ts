@@ -51,3 +51,16 @@ it("acks a message", async () => {
 
   expect(msg.ack).toHaveBeenCalled();
 });
+
+it("does not call the ack function when an event is missing", async () => {
+  const { listener, data, msg } = await setup();
+
+  // setting version number on data to a number that is not sequentially accurate
+  data.version = 10;
+
+  try {
+    await listener.onMessage(data, msg);
+  } catch (err) {}
+
+  expect(msg.ack).not.toHaveBeenCalled();
+});
