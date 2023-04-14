@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@greateki-ticket-ms-demo/common": "^1.0.9",
+    "@greateki-ticket-ms-demo/common": "^1.0.10",
     "@hapi/joi": "^17.1.1",
     "bull": "^4.10.4",
     "node-nats-streaming": "^0.3.2"
