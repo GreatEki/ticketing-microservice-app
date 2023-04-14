@@ -3,6 +3,7 @@ import connectDB from "./config/database";
 import {
   TicketCreatedListener,
   TicketUpdatedListener,
+  ExpirationCompleteListener,
 } from "./events/listeners";
 import { natsWrapper } from "./events/nats-wrapper";
 
@@ -41,6 +42,7 @@ const startApplication = async () => {
 
   new TicketCreatedListener(natsWrapper.client).listen();
   new TicketUpdatedListener(natsWrapper.client).listen();
+  new ExpirationCompleteListener(natsWrapper.client).listen();
 
   await connectDB();
 
