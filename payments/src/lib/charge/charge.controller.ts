@@ -6,6 +6,7 @@ import {
   OrderStatus,
   UnauthorizedError,
 } from "@greateki-ticket-ms-demo/common";
+import { stripe } from "../../config/stripe";
 
 export const chargeUser = async (
   req: Request,
@@ -25,6 +26,14 @@ export const chargeUser = async (
 
     if (order.status === OrderStatus.Cancelled)
       throw new BadRequestError("This order has been cancelled");
+
+    await stripe.charges.create({
+      currency: "usd",
+      amount: order.price * 100,
+      source: token,
+    });
+
+    res.status(201).send({ success: true });
   } catch (err) {
     next(err);
   }
