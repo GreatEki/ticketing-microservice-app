@@ -19,7 +19,7 @@ export const chargeUser = async (
 
     if (!order) throw new NotFoundError("Order not found");
 
-    //    confirm user intendin g to pay is user who created order
+    //    confirm user intending to pay is user who created order
     if (order.userId !== req.currentUser!.id)
       throw new UnauthorizedError("Unauthorized user");
 
