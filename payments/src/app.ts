@@ -5,7 +5,7 @@ import {
   errorHandler,
   NotFoundError,
 } from "@greateki-ticket-ms-demo/common";
-// import { AppRouter } from "./router";
+import { AppRouter } from "./router";
 
 const app = express();
 
@@ -18,7 +18,7 @@ app.use(
 
 app.use(currentUserMiddleWare);
 
-// app.use("/api/tickets", AppRouter);
+app.use("/api/payments", AppRouter);
 
 app.all("*", async (req: Request, res: Response, next: NextFunction) => {
   next(new NotFoundError("Resource not found"));
