@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { Order } from "../../models";
+import { Order, Payment } from "../../models";
 import {
   BadRequestError,
   NotFoundError,
@@ -7,6 +7,8 @@ import {
   UnauthorizedError,
 } from "@greateki-ticket-ms-demo/common";
 import { stripe } from "../../config/stripe";
+import { PaymentCreatedPublisher } from "../../events/publishers/PaymentCreatedPublisher";
+import { natsWrapper } from "../../events/nats-wrapper";
 
 export const chargeUser = async (
   req: Request,
@@ -27,10 +29,23 @@ export const chargeUser = async (
     if (order.status === OrderStatus.Cancelled)
       throw new BadRequestError("This order has been cancelled");
 
-    await stripe.charges.create({
+    const charge = await stripe.charges.create({
       currency: "usd",
       amount: order.price * 100,
       source: token,
+    });
+
+    const payment = Payment.buildNewDocument({
+      orderId,
+      stripeId: charge.id,
+    });
+
+    await payment.save();
+
+    new PaymentCreatedPublisher(natsWrapper.client).publish({
+      id: payment.id,
+      orderId: payment.orderId,
+      stripeId: payment.stripeId,
     });
 
     res.status(201).send({ success: true });

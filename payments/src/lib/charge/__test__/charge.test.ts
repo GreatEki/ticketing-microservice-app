@@ -1,7 +1,7 @@
 import { app } from "../../../app";
 import request from "supertest";
 import mongoose from "mongoose";
-import { Order } from "../../../models";
+import { Order, Payment } from "../../../models";
 import { OrderStatus } from "@greateki-ticket-ms-demo/common";
 import { stripe } from "../../../config/stripe";
 
@@ -59,7 +59,7 @@ it("returns 400 for orders that has been cancelled", async () => {
   expect(400);
 });
 
-it("returns a 204 with valid inputs", async () => {
+it("returns a 201 with valid inputs", async () => {
   const userId = new mongoose.Types.ObjectId().toHexString();
 
   const order = Order.buildNewDocument({
@@ -84,4 +84,8 @@ it("returns a 204 with valid inputs", async () => {
   expect(chargeOptions.source).toEqual("tok_visa");
   expect(chargeOptions.amount).toEqual(50 * 100);
   expect(chargeOptions.currency).toEqual("usd");
+
+  const payment = await Payment.findOne({ orderId: order.id });
+
+  expect(payment).not.toBeNull();
 });

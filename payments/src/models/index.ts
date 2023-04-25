@@ -1,3 +1,5 @@
 import { Order } from "./Order";
 
-export { Order };
+import { Payment } from "./Payment";
+
+export { Order, Payment };
