@@ -5,7 +5,7 @@ import { natsWrapper } from "../../../events/nats-wrapper";
 import Ticket from "../../../model/Ticket";
 
 it("returns a 404 for an invalid ticket id", async () => {
-  const id = new mongoose.Types.ObjectId().toHexString();
+  const id = "dfdgidfhfinvalid";
   await request(app)
     .put(`/api/tickets/update/${id}`)
     .set("Cookie", global.signup())

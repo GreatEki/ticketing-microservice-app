@@ -30,7 +30,7 @@ export const updateTicket: RequestHandler = async (
         "Ticket is currently reserved. Operation disallowed"
       );
 
-    if (ticket.userId !== req.currentUser!.id)
+    if (ticket.userId != req.currentUser!.id)
       throw new UnauthorizedError(
         "You are not authorized to perform this operation"
       );

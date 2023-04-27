@@ -24,10 +24,10 @@ export const TicketSchema: Schema = new Schema<TicketAttrs>(
 TicketSchema.set("versionKey", "version");
 TicketSchema.plugin(updateIfCurrentPlugin);
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>("ticket", TicketSchema);
-
 TicketSchema.statics.buildNewDocument = (attrs: TicketAttrs) => {
   return new Ticket(attrs);
 };
+
+const Ticket = mongoose.model<TicketDoc, TicketModel>("ticket", TicketSchema);
 
 export default Ticket;

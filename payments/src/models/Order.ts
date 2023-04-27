@@ -42,9 +42,7 @@ const OrderSchema: Schema = new Schema<OrderAttrs>(
 OrderSchema.set("versionKey", "version");
 OrderSchema.plugin(updateIfCurrentPlugin);
 
-export const Order = mongoose.model<OrderDoc, OrderModel>("order", OrderSchema);
-
-OrderSchema.statics.build = (attrs: OrderAttrs) => {
+OrderSchema.statics.buildNewDocument = (attrs: OrderAttrs) => {
   return new Order({
     _id: attrs.id,
     version: attrs.version,
@@ -57,3 +55,5 @@ OrderSchema.statics.build = (attrs: OrderAttrs) => {
 OrderSchema.statics.findByEvent = (event: { id: string; version: number }) => {
   return Order.findOne({ _id: event.id, version: event.version - 1 });
 };
+
+export const Order = mongoose.model<OrderDoc, OrderModel>("order", OrderSchema);
