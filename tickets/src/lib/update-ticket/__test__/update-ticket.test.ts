@@ -6,6 +6,13 @@ import Ticket from "../../../model/Ticket";
 
 it("returns a 404 for an invalid ticket id", async () => {
   const id = "dfdgidfhfinvalid";
+
+  await request(app)
+    .post("/api/tickets/create")
+    .set("Cookie", global.signup())
+    .send({ title: "New valid ticket", price: 50 })
+    .expect(200);
+
   await request(app)
     .put(`/api/tickets/update/${id}`)
     .set("Cookie", global.signup())
