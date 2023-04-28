@@ -42,8 +42,6 @@ const TicketSchema: Schema = new Schema<TicketAttrs>(
 TicketSchema.set("versionKey", "version");
 TicketSchema.plugin(updateIfCurrentPlugin);
 
-const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", TicketSchema);
-
 TicketSchema.statics.buildNewDocument = (attrs: TicketAttrs) => {
   return new Ticket({
     _id: attrs.id,
@@ -73,5 +71,7 @@ TicketSchema.methods.isReserved = async function () {
 
   return !!lockedInOrder;
 };
+
+const Ticket = mongoose.model<TicketDoc, TicketModel>("Ticket", TicketSchema);
 
 export default Ticket;
