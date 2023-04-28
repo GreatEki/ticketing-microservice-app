@@ -35,7 +35,10 @@ export const updateTicket: RequestHandler = async (
         "You are not authorized to perform this operation"
       );
 
-    const result = await ticket.updateOne({ title, price });
+    const result = await ticket.updateOne(
+      { title, price },
+      { new: true, session }
+    );
 
     new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: result.id,

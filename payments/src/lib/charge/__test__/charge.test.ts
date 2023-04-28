@@ -3,7 +3,6 @@ import request from "supertest";
 import mongoose from "mongoose";
 import { Order, Payment } from "../../../models";
 import { OrderStatus } from "@greateki-ticket-ms-demo/common";
-import { stripe } from "../../../config/stripe";
 
 jest.mock("../../../config/stripe");
 
@@ -49,7 +48,7 @@ it("returns 400 for orders that has been cancelled", async () => {
   await order.save();
 
   await request(app)
-    .post("api/payments")
+    .post("/api/payments")
     .set("Cookie", global.signup(userId))
     .send({
       token: "hgjf[ldsfjdaflasf7373",
