@@ -51,10 +51,10 @@ const OrderSchema: Schema = new Schema<OrderAttr>(
 OrderSchema.set("versionKey", "version");
 OrderSchema.plugin(updateIfCurrentPlugin);
 
-const Order = mongoose.model<OrderDoc, OrderModel>("order", OrderSchema);
-
 OrderSchema.statics.buildNewDocument = (attrs: OrderAttr) => {
   return new Order(attrs);
 };
+
+const Order = mongoose.model<OrderDoc, OrderModel>("order", OrderSchema);
 
 export default Order;

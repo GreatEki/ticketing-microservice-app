@@ -11,6 +11,7 @@ import { natsWrapper } from "./events/nats-wrapper";
 const PORT = process.env.PORT || 3000;
 
 const startApplication = async () => {
+  console.log("Starting up orders microservice....");
   if (!process.env.JWT_KEY) {
     throw new Error("JWT_KEY should be defined");
   }

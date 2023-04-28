@@ -8,6 +8,13 @@
     "test": "jest --watchAll --no-cache",
     "test:ci": "jest"
   },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./src/test/setup.ts"
+    ]
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -20,6 +27,7 @@
     "mongoose": "^7.0.3",
     "mongoose-update-if-current": "^1.4.0",
     "node-nats-streaming": "^0.3.2",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.3"
   },
   "devDependencies": {

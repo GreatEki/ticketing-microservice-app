@@ -30,12 +30,15 @@ export const updateTicket: RequestHandler = async (
         "Ticket is currently reserved. Operation disallowed"
       );
 
-    if (ticket.userId !== req.currentUser!.id)
+    if (ticket.userId != req.currentUser!.id)
       throw new UnauthorizedError(
         "You are not authorized to perform this operation"
       );
 
-    const result = await ticket.updateOne({ title, price });
+    const result = await ticket.updateOne(
+      { title, price },
+      { new: true, session }
+    );
 
     new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: result.id,
